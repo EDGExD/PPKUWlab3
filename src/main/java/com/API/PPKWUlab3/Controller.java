@@ -38,10 +38,21 @@ public class Controller {
         return giveXML(result);
     }
 
+    @GetMapping("/TXT")
+    public String makeTXT(@RequestParam String str){
+        String url = "http://localhost:8080/API?str=" +str;
+
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(url, String.class);
+
+        return giveTXT(result);
+    }
+
     @GetMapping("/")
     public String help(){
-        return "Aby skorzystać z zaimplementowanej funkcjonalności jako endpoint należy do URL dopisać - \"/Lab3?str=\" a po znaku \"=\" dowolny tekst.";
+        return "Aby skorzystać z zaimplementowanej funkcjonalności jako endpoint należy do URL dopisać format pliku np.- \"/XML\" oraz \"?str=\" a po znaku \"=\" dowolny tekst.";
     }
+
 
     public String giveCSV (String str)
     {
@@ -106,6 +117,40 @@ public class Controller {
         sb.append(substr.substring(0,substr.indexOf(' ')));
         sb.append('\n');
         sb.append('}');
+
+        return sb.toString();
+    }
+
+    public String giveTXT (String str)
+    {
+        String substr = str;
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Wielkie litery: ");
+        substr= substr.substring(substr.indexOf('>')+1);
+        sb.append(substr.substring(0,substr.indexOf(' ')));
+        sb.append("\n");
+
+        sb.append("Male litery: ");
+        substr= substr.substring(substr.indexOf('>')+1);
+        sb.append(substr.substring(0,substr.indexOf(' ')));
+        sb.append("\n");
+
+        sb.append("Cyfry: ");
+        substr= substr.substring(substr.indexOf('>')+1);
+        sb.append(substr.substring(0,substr.indexOf(' ')));
+        sb.append("\n");
+
+        sb.append("Znaki specjalne: ");
+        substr= substr.substring(substr.indexOf('>')+1);
+        sb.append(substr.substring(0,substr.indexOf(' ')));
+        sb.append("\n");
+
+        sb.append("Suma znaków: ");
+        substr= substr.substring(substr.indexOf('>')+1);
+        sb.append(substr.substring(0,substr.indexOf(' ')));
+        sb.append("\n");
 
         return sb.toString();
     }
